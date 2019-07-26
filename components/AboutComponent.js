@@ -26,6 +26,7 @@ class About extends Component {
     };
 
     History() {
+        <div>
         <Text>Our History</Text>
         <Text>Started in 2010, Ristorante con Fusion quickly established itself as a culinary icon par excellence in Hong Kong. 
             With its unique brand of world fusion cuisine that can be found nowhere else, it enjoys patronage from the A-list clientele in Hong Kong.  
@@ -34,8 +35,9 @@ class About extends Component {
         <Text>The restaurant traces its humble beginnings to The Frying Pan, a successful chain started by our CEO, Mr. Peter Pan, 
             that featured for the first time the world's best cuisines in a pan.
         </Text>
+        </div>
     }
-
+    
     render() {
         const renderLeader = ({item, index}) => {
             return (
@@ -86,19 +88,6 @@ class About extends Component {
                 </ScrollView>
             );
         }
-        // return (
-        //     <ScrollView>
-        //         <History />
-        //         <Card>
-        //             <Text>Corporate Leadership</Text>
-        //             <FlatList 
-        //                 data={this.props.leaders.leaders}
-        //                 renderItem={renderLeader}
-        //                 keyExtractor={item => item.id.toString()}
-        //             />
-        //         </Card>
-        //     </ScrollView>
-        // );
     }
 }
 

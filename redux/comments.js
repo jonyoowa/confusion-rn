@@ -8,7 +8,19 @@ export const comments = (state = { errMess: null, comments:[]}, action) => {
     case ActionTypes.COMMENTS_FAILED:
       return {...state, errMess: action.payload};
 
-    default:
-      return state;
+    
+    // Assignment 2, add comment (last task)
+    case ActionTypes.ADD_COMMENT:
+      switch (action.type) {
+        case ActionTypes.ADD_FAVORITE:
+            if (state.some(el => el === action.payload))
+                return state;
+            else
+                return state.concat(action.payload);
+                
+        default:
+            return state;
+    }
+
   }
 };
