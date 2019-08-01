@@ -141,7 +141,7 @@ const ReservationNavigator = createStackNavigator({
     color='white'
     onPress={ () => navigation.toggleDrawer() } /> 
   })
-})
+});
 
 //
 
@@ -160,21 +160,39 @@ const FavoritesNavigator = createStackNavigator({
     color='white'
     onPress={ () => navigation.toggleDrawer() } />   
   })
-})
+});
+
+// const LoginNavigator = createStackNavigator({
+//   Login: { screen: Login }
+// }, {
+//   navigationOptions: ({ navigation }) => ({
+//     headerStyle: {
+//       backgroundColor: "#512DA8"
+//     },
+//     headerTitleStyle: {
+//         color: "#fff"            
+//     },
+//     headerTintColor: "#fff",
+//     headerLeft: <Icon name="menu" size={24}
+//       color='white'    
+//       onPress={ () => navigation.toggleDrawer() } />    
+//   })
+// });
 
 const LoginNavigator = createStackNavigator({
-  Login: { screen: Login }
-}, {
+    Login: Login 
+  }, {
   navigationOptions: ({ navigation }) => ({
     headerStyle: {
-      backgroundColor: "#512DA8"
+        backgroundColor: "#512DA8"
     },
     headerTitleStyle: {
         color: "#fff"            
     },
+    title: 'Login',
     headerTintColor: "#fff",
     headerLeft: <Icon name="menu" size={24}
-      color='white'    
+      color='white' 
       onPress={ () => navigation.toggleDrawer() } />    
   })
 });
