@@ -52,7 +52,7 @@ class Reservation extends Component {
     render() {
         return(
             <ScrollView>
-                <Animatable.View animation="zoomIn">           
+                <Animatable.View animation="zoomIn">
                 <View style={styles.formRow}>
                 <Text style={styles.formLabel}>Number of Guests</Text>
                 <Picker
