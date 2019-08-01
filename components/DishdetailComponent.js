@@ -19,7 +19,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     postFavorite: (dishId) => dispatch(postFavorite(dishId)),
-    postComment: (dishId, rating, author, comment, currentDate) => dispatch(postComment(dishId, rating, author, comment, currentDate))
+    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment))
 })
 
 function RenderDish(props) {
@@ -28,10 +28,12 @@ function RenderDish(props) {
     handleViewRef = ref => this.view = ref;
 
     const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
-        if ( dx < -200 )
-            return true;
-        else
-            return false;
+        return ( dx < -200 )
+    }
+
+    // Assignment 3
+    const recognizeComment = ({ moveX, moveY, dx, dy }) => {
+        return ( dx > 200)
     }
 
     const panResponder = PanResponder.create({
@@ -41,7 +43,7 @@ function RenderDish(props) {
         onPanResponderGrant: () => {this.view.rubberBand(1000).then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));},
         onPanResponderEnd: (e, gestureState) => {
             console.log("pan responder end", gestureState);
-            if (recognizeDrag(gestureState))
+            if (recognizeDrag(gestureState)) {
                 Alert.alert(
                     'Add Favorite',
                     'Are you sure you wish to add ' + dish.name + ' to favorite?',
@@ -51,6 +53,11 @@ function RenderDish(props) {
                     ],
                     { cancelable: false }
                 );
+            }
+
+            if (recognizeComment(gestureState)) {
+                this.state.showModal = true;
+            }
 
             return true;
         }
@@ -123,12 +130,8 @@ class DishDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dishes: DISHES,
-            comments: COMMENTS,
             favorites: [],
-
             showModal: false,
-
             rating: 5,
             author: "",
             comment: ""
@@ -159,33 +162,28 @@ class DishDetail extends Component {
 
     handleComment() {
         //console.log(JSON.stringify(this.state));
-        this.postComment(this.state.dishes.id, this.state.rating, this.state.author, this.state.comment);
+        this.props.postComment(dish.id, this.state.rating, this.state.author, this.state.comment);
         this.toggleModal();
     }
 
 
     static navigationOptions = {
-        //title: 'Dish Details'
-        title: 'Menu'
+        title: 'Dish Details'
     };
 
     render() {
         const dishId = this.props.navigation.getParam('dishId','');
         return (
-            // <ScrollView>
-            //     <RenderDish dish={this.state.dishes[+dishId]}
-            //         favorite={this.state.favorites.some(el => el === dishId)}
-            //         onPress={() => this.markFavorite(dishId)} 
-            //         />
-            //     <RenderComments comments={this.state.comments.filter((comment) => comment.dishId === dishId)} />
-            // </ScrollView>
             <ScrollView>
                 <RenderDish dish={this.props.dishes.dishes[+dishId]}
                     favorite={this.props.favorites.some(el => el === dishId)}
                     onPress={() => this.markFavorite(dishId)}
                     onShowModal={() => this.toggleModal} 
                     />
-                <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
+                <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)}
+                                postComment={this.props.postComment}
+                                dish={dishId}
+                />
                 
                 <Modal animationType = {"slide"} transparent = {false}
                     visible = {this.state.showModal}
@@ -216,7 +214,7 @@ class DishDetail extends Component {
                             />
                         
                         <Button 
-                            onPress = {() =>{this.handleComment(); this.resetForm();}}
+                            onPress = {() =>{this.handleComment(dishId)}}
                             color="#512DA7"
                             title="Submit" 
                             />
@@ -251,7 +249,6 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
 
-    // Keep?
     modalText: {
         fontSize: 18,
         margin: 10
@@ -274,5 +271,4 @@ const styles = StyleSheet.create({
     }
 });
 
-// export default DishDetail;
 export default connect(mapStateToProps, mapDispatchToProps)(DishDetail);

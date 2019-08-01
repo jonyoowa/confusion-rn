@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
 import { Tile } from 'react-native-elements';
 import { DISHES } from '../shared/dishes';
 import { connect } from 'react-redux';
@@ -16,21 +16,18 @@ const mapStateToProps = state => {
 
 class Menu extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            dishes: DISHES
-        };
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         dishes: DISHES
+    //     };
+    // }
 
     static navigationOptions = {
-        //title: 'Dish Details'
         title: 'Menu'
     };
 
     render() {
-        // const { navigate } = this.props.navigation;
-
         const renderMenuItem = ({item, index}) => {
             return (
                 <Animatable.View animation="fadeInRightBig" duration={2000}>                
@@ -56,7 +53,7 @@ class Menu extends Component {
         else if (this.props.dishes.errMess) {
             return(
                 <View>            
-                    <Text>{props.dishes.errMess}</Text>
+                    <Text>{this.props.dishes.errMess}</Text>
                 </View>            
             );
         }

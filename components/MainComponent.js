@@ -17,10 +17,10 @@ import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/
 
 const mapStateToProps = state => {
   return {
-    dishes: state.dishes,
-    comments: state.comments,
-    promotions: state.promotions,
-    leaders: state.leaders
+    // dishes: state.dishes,
+    // comments: state.comments,
+    // promotions: state.promotions,
+    // leaders: state.leaders
   }
 }
 
@@ -52,8 +52,10 @@ const mapDispatchToProps = dispatch => ({
 //     }
 //   }
 // });
+
 const MenuNavigator = createStackNavigator({
-  Menu: { screen: Menu, }
+  Menu: { screen: Menu, },
+  DishDetail: { screen: DishDetail }
 }, {
   navigationOptions: ({ navigation }) => ({
     headerStyle: {

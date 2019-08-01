@@ -11,13 +11,19 @@ import { promotions } from './promotions';
 import { leaders } from './leaders';
 import { favorites } from './favorites';
 
+const config = {
+    key: 'root',
+    storage,
+    debug: true
+  }    
+
 export const ConfigureStore = () => {
 
-    const config = {
-        key: 'root',
-        storage,
-        debug: true
-      }    
+    // const config = {
+    //     key: 'root',
+    //     storage,
+    //     debug: true
+    //   }    
 
     const store = createStore(
         persistCombineReducers(config, {
@@ -34,3 +40,4 @@ export const ConfigureStore = () => {
 
     return { persistor, store };
 }
+ 

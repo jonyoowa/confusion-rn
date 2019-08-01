@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View, Animated, Easing } from 'react-native';
 import { Card } from 'react-native-elements';
-import { DISHES } from '../shared/dishes';
-import { PROMOTIONS } from '../shared/promotions';
-import { LEADERS } from '../shared/leaders';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { Loading } from './LoadingComponent';
@@ -39,8 +36,7 @@ function RenderItem(props) {
                     featuredTitle={item.name}
                     featuredSubtitle={item.designation}
                     image={{uri: baseUrl + item.image}}>
-                    <Text
-                        style={{margin: 10}}>
+                    <Text style={{margin: 10}}>
                         {item.description}</Text>
                 </Card>
             );
@@ -77,10 +73,10 @@ class Home extends Component {
     //         leaders: LEADERS
     //     };
     // }
-    constructor(props) {
-        super(props);
-        this.animatedValue = new Animated.Value(0);        
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.animatedValue = new Animated.Value(0);        
+    // }
 
     static navigationOptions = {
         title: 'Home'
