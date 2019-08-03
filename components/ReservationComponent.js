@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-//import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button } from 'react-native';
 import { Text, View, StyleSheet, ScrollView, Picker, Switch, Button, Modal, Alert } from 'react-native';
 import DatePicker from 'react-native-datepicker'
-
 import * as Animatable from 'react-native-animatable';
-import Swipeout from 'react-native-swipeout';
-import { Permissions, Notifications } from 'expo';
+//import Swipeout from 'react-native-swipeout';
+import { Notifications } from 'expo';
+import * as  Permissions from 'expo-permissions'
+import * as Calendar from 'expo-calendar';
 
 class Reservation extends Component {
 
@@ -23,9 +23,9 @@ class Reservation extends Component {
         title: 'Reserve Table',
     };
 
-
-    handleReservation() {
+    handleReservation(date) {
         //console.log(JSON.stringify(this.state));
+        this.addReservationToCalendar(date);
         this.giveAlert();
     }
 
@@ -49,6 +49,18 @@ class Reservation extends Component {
         return permission;
     }
 
+    async obtainCalendarPermission() {
+        let permission = await Permissions.getAsync(Permissions.CALENDAR);
+        if (permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.CALENDAR);
+            if (permission.status !== 'granted') {
+                Alert.alert('Permission not granted to show calendar');
+            }
+        }
+
+        return permission;
+    }
+
     async presentLocalNotification(date) {
         await this.obtainNotificationPermission();
         Notifications.presentLocalNotificationAsync({
@@ -63,6 +75,21 @@ class Reservation extends Component {
                 color: '#512DA8'
             }
         });
+    }
+
+    async addReservationToCalendar(date) {
+        await this.obtainCalendarPermission();
+
+        const calendarObject = {
+            title: 'Con Fusion Table Reservation',
+            startDate: new Date(Date.parse(date)),
+            endDate: new Date(Date.parse(date)+7200000),
+            timezone: 'Asia/Hong_Kong',
+            location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
+        }
+
+        Calendar.createEventAsync(Calendar.DEFAULT, calendarObject)
+            .then(mesg => (console.log(mesg)));
     }
 
     giveAlert() {
@@ -134,7 +161,7 @@ class Reservation extends Component {
                 </View>
                 <View style={styles.formRow}>
                 <Button
-                    onPress={() => this.handleReservation()}
+                    onPress={() => this.handleReservation(this.state.date)}
                     title="Reserve"
                     color="#512DA8"
                     accessibilityLabel="Learn more about this purple button"

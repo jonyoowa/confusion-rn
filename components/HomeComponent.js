@@ -30,7 +30,7 @@ function RenderItem(props) {
         );
     }
     else {        
-        if (item != null) {
+        if (item !== null) {
             return(
                 <Card
                     featuredTitle={item.name}
@@ -73,10 +73,11 @@ class Home extends Component {
     //         leaders: LEADERS
     //     };
     // }
-    // constructor(props) {
-    //     super(props);
-    //     this.animatedValue = new Animated.Value(0);        
-    // }
+    
+    constructor(props) {
+        super(props);
+        this.animatedValue = new Animated.Value(0);        
+    }
 
     static navigationOptions = {
         title: 'Home'
